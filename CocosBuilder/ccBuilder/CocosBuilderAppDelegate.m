@@ -537,7 +537,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) updateInspectorFromSelection
 {
-    [inspectorDocumentView removeAllInspectorValues];
+    [inspectorDocumentView removeAllProperties];
     
     // Add show panes according to selections
     if (!self.selectedNode) return;

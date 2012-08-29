@@ -42,7 +42,7 @@
         [inspectorValue refresh];
     }
 }
-- (void)removeAllInspectorValues
+- (void)removeAllProperties
 {
     // Notifiy panes that they will be removed
     for (NSString* key in currentInspectorValues) {
