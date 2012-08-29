@@ -608,7 +608,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         }
     }
     
-    [inspectorDocumentView finishedAddingInspectorProperties];
+    [inspectorDocumentView resizeFrameAroundAddedProperties];
     
 
     

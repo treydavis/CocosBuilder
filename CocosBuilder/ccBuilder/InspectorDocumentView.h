@@ -13,6 +13,6 @@
 - (void)refreshProperty:(NSString*)name;
 - (void)removeAllInspectorValues;
 - (void)addInspectorPropertyOfType:(NSString*)type name:(NSString*)prop displayName:(NSString*)displayName extra:(NSString*)e readOnly:(BOOL)readOnly affectsProps:(NSArray*)affectsProps;
-- (void)finishedAddingInspectorProperties;
+- (void)resizeFrameAroundAddedProperties;
 
 @end

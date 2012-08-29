@@ -60,6 +60,7 @@
     
     [self setFrameSize:NSMakeSize(233, 1)];
     paneOffset = 0;
+    hideAllToNextSeparator = NO;
 }
 
 - (void)addInspectorPropertyOfType:(NSString*)type name:(NSString*)prop displayName:(NSString*)displayName extra:(NSString*)e readOnly:(BOOL)readOnly affectsProps:(NSArray*)affectsProps
@@ -116,9 +117,8 @@
     [view setAutoresizingMask:NSViewWidthSizable];
 }
 
-- (void)finishedAddingInspectorProperties
+- (void)resizeFrameAroundAddedProperties
 {
-    hideAllToNextSeparator = NO;
     [self setFrameSize:NSMakeSize([(NSScrollView*)self.superview.superview contentSize].width, paneOffset)];
 }
 
