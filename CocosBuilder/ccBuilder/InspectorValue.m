@@ -32,6 +32,7 @@
 #import "SequencerSequence.h"
 #import "SequencerKeyframe.h"
 #import "SequencerNodeProperty.h"
+#import "InspectorDocumentView.h"
 
 @implementation InspectorValue
 
@@ -79,7 +80,7 @@
         {
             NSString* propName = [affectsProperties objectAtIndex:i];
             CocosBuilderAppDelegate* ad = [CocosBuilderAppDelegate appDelegate];
-            [ad refreshProperty:propName];
+            [ad.inspectorDocumentView refreshProperty:propName];
         }
     }
 }

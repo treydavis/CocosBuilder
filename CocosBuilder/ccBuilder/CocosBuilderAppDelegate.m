@@ -83,6 +83,7 @@
 #import "CustomPropSetting.h"
 #import "MainToolbarDelegate.h"
 #import "InspectorSeparator.h"
+#import "InspectorDocumentView.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -110,6 +111,7 @@
 @synthesize outlineProject;
 @synthesize errorDescription;
 @synthesize selectedNodes;
+@synthesize inspectorDocumentView;
 
 static CocosBuilderAppDelegate* sharedAppDelegate;
 
@@ -120,13 +122,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     return sharedAppDelegate;
 }
 
-- (void) setupInspectorPane
+- (void) setupInspectorDocumentView
 {
-    currentInspectorValues = [[NSMutableDictionary alloc] init];
-    
-    //[inspectorScroll setScrollerStyle: NSScrollerStyleLegacy];
-    
-    inspectorDocumentView = [[NSFlippedView alloc] initWithFrame:NSMakeRect(0, 0, [inspectorScroll contentSize].width, 1)];
+    inspectorDocumentView = [[InspectorDocumentView alloc] initWithFrame:NSMakeRect(0, 0, [inspectorScroll contentSize].width, 1)];
     [inspectorDocumentView setAutoresizesSubviews:YES];
     [inspectorDocumentView setAutoresizingMask:NSViewWidthSizable];
     [inspectorScroll setDocumentView:inspectorDocumentView];
@@ -268,7 +266,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [window setDelegate:self];
     
     [self setupTabBar];
-    [self setupInspectorPane];
+    [self setupInspectorDocumentView];
     [self setupCocos2d];
     [self setupSequenceHandler];
     [self setupSplitView];
@@ -515,79 +513,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 #pragma mark Populate Inspector
 
-- (void) refreshProperty:(NSString*) name
-{
-    if (!self.selectedNode) return;
-    
-    InspectorValue* inspectorValue = [currentInspectorValues objectForKey:name];
-    if (inspectorValue)
-    {
-        [inspectorValue refresh];
-    }
-}
-
-
-static InspectorValue* lastInspectorValue;
-static BOOL hideAllToNextSeparator;
-
-- (int) addInspectorPropertyOfType:(NSString*)type name:(NSString*)prop displayName:(NSString*)displayName extra:(NSString*)e readOnly:(BOOL)readOnly affectsProps:(NSArray*)affectsProps atOffset:(int)offset
-{
-    NSString* inspectorNibName = [NSString stringWithFormat:@"Inspector%@",type];
-    
-    // Create inspector
-    InspectorValue* inspectorValue = [InspectorValue inspectorOfType:type withSelection:self.selectedNode andPropertyName:prop andDisplayName:displayName andExtra:e];
-    lastInspectorValue.inspectorValueBelow = inspectorValue;
-    lastInspectorValue = inspectorValue;
-    inspectorValue.readOnly = readOnly;
-    
-    // Save a reference in case it needs to be updated
-    if (prop)
-    {
-        [currentInspectorValues setObject:inspectorValue forKey:prop];
-    }
-    
-    if (affectsProps)
-    {
-        inspectorValue.affectsProperties = affectsProps;
-    }
-    
-    // Load it's associated view
-    [NSBundle loadNibNamed:inspectorNibName owner:inspectorValue];
-    NSView* view = inspectorValue.view;
-    
-    [inspectorValue willBeAdded];
-    
-    //if its a separator, check to see if it isExpanded, if not set all of the next non-separator InspectorValues to hidden and don't touch the offset
-    if ([inspectorValue isKindOfClass:[InspectorSeparator class]]) {
-        InspectorSeparator* inspectorSeparator = (InspectorSeparator*)inspectorValue;
-        hideAllToNextSeparator = NO;
-        if (!inspectorSeparator.isExpanded) {
-            hideAllToNextSeparator = YES;
-        }
-        NSRect frame = [view frame];
-        [view setFrame:NSMakeRect(0, offset, frame.size.width, frame.size.height)];
-        offset += frame.size.height;
-    }
-    else {
-        if (hideAllToNextSeparator) {
-            [view setHidden:YES];
-        }
-        else {
-            NSRect frame = [view frame];
-            [view setFrame:NSMakeRect(0, offset, frame.size.width, frame.size.height)];
-            offset += frame.size.height;
-        }
-    }
-    
-    // Add view to inspector and place it at the bottom
-    [inspectorDocumentView addSubview:view];
-    [view setAutoresizingMask:NSViewWidthSizable];
-    
-
-    
-    return offset;
-}
-
 - (BOOL) isDisabledProperty:(NSString*)name animatable:(BOOL)animatable
 {
     // Only animatable properties can be disabled
@@ -612,24 +537,7 @@ static BOOL hideAllToNextSeparator;
 
 - (void) updateInspectorFromSelection
 {
-    // Notifiy panes that they will be removed
-    for (NSString* key in currentInspectorValues)
-    {
-        InspectorValue* v = [currentInspectorValues objectForKey:key];
-        [v willBeRemoved];
-    }
-    
-    // Remove all old inspector panes
-    NSArray* panes = [inspectorDocumentView subviews];
-    for (int i = [panes count]-1; i >= 0 ; i--)
-    {
-        NSView* pane = [panes objectAtIndex:i];
-        [pane removeFromSuperview];
-    }
-    [currentInspectorValues removeAllObjects];
-    
-    [inspectorDocumentView setFrameSize:NSMakeSize(233, 1)];
-    int paneOffset = 0;
+    [inspectorDocumentView removeAllInspectorValues];
     
     // Add show panes according to selections
     if (!self.selectedNode) return;
@@ -640,7 +548,7 @@ static BOOL hideAllToNextSeparator;
     BOOL isCCBSubFile = [plugIn.nodeClassName isEqualToString:@"CCBFile"];
     
     // Always add the code connections pane
-    paneOffset = [self addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" extra:NULL readOnly:isCCBSubFile affectsProps:NULL atOffset:paneOffset];
+    [self.inspectorDocumentView addInspectorPropertyOfType:@"CodeConnections" name:@"customClass" displayName:@"" extra:NULL readOnly:isCCBSubFile affectsProps:NULL];
     
     // Add panes for each property
     
@@ -671,7 +579,7 @@ static BOOL hideAllToNextSeparator;
                 name = displayName;
             }
             
-            paneOffset = [self addInspectorPropertyOfType:type name:name displayName:displayName extra:extra readOnly:readOnly affectsProps:affectsProps atOffset:paneOffset];
+            [self.inspectorDocumentView addInspectorPropertyOfType:type name:name displayName:displayName extra:extra readOnly:readOnly affectsProps:affectsProps];
         }
     }
     else
@@ -686,21 +594,23 @@ static BOOL hideAllToNextSeparator;
     {
         if ([customProps count] || !isCCBSubFile)
         {
-            paneOffset = [self addInspectorPropertyOfType:@"Separator" name:[self.selectedNode extraPropForKey:@"customClass"] displayName:[self.selectedNode extraPropForKey:@"customClass"] extra:NULL readOnly:YES affectsProps:NULL atOffset:paneOffset];
+            [self.inspectorDocumentView addInspectorPropertyOfType:@"Separator" name:[self.selectedNode extraPropForKey:@"customClass"] displayName:[self.selectedNode extraPropForKey:@"customClass"] extra:NULL readOnly:YES affectsProps:NULL];
         }
         
         for (CustomPropSetting* setting in customProps)
         {
-            paneOffset = [self addInspectorPropertyOfType:@"Custom" name:setting.name displayName:setting.name extra:NULL readOnly:NO affectsProps:NULL atOffset:paneOffset];
+            [self.inspectorDocumentView addInspectorPropertyOfType:@"Custom" name:setting.name displayName:setting.name extra:NULL readOnly:NO affectsProps:NULL];
         }
         
         if (!isCCBSubFile)
         {
-            paneOffset = [self addInspectorPropertyOfType:@"CustomEdit" name:NULL displayName:@"" extra:NULL readOnly:NO affectsProps:NULL atOffset:paneOffset];
+            [self.inspectorDocumentView addInspectorPropertyOfType:@"CustomEdit" name:NULL displayName:@"" extra:NULL readOnly:NO affectsProps:NULL ];
         }
     }
     
-    hideAllToNextSeparator = NO;
+    [inspectorDocumentView finishedAddingInspectorProperties];
+    
+
     
     /*
     // Custom properties from sub ccb
@@ -724,8 +634,6 @@ static BOOL hideAllToNextSeparator;
         }
     }
      */
-    
-    [inspectorDocumentView setFrameSize:NSMakeSize([inspectorScroll contentSize].width, paneOffset)];
 }
 
 #pragma mark Populating menus
@@ -1828,7 +1736,7 @@ static BOOL hideAllToNextSeparator;
         
         // Update the selected node
         [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
-        [self refreshProperty:@"position"];
+        [self.inspectorDocumentView refreshProperty:@"position"];
         
         // Update animated value
         NSArray* animValue = [NSArray arrayWithObjects:

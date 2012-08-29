@@ -70,6 +70,7 @@ enum {
 @class SequencerScrubberSelectionView;
 @class MainWindow;
 @class PlayerConsoleWindow;
+@class InspectorDocumentView;
 
 @interface CocosBuilderAppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate, NSSplitViewDelegate>
 {
@@ -80,8 +81,7 @@ enum {
     
     // Inspector views
     IBOutlet NSScrollView* inspectorScroll;
-    NSView* inspectorDocumentView;
-    NSMutableDictionary* currentInspectorValues;
+    InspectorDocumentView* inspectorDocumentView;
     
     IBOutlet NSToolbar* toolbar;
     
@@ -212,12 +212,13 @@ enum {
 
 @property (nonatomic,copy) NSString* errorDescription;
 
+@property (nonatomic, assign) InspectorDocumentView* inspectorDocumentView;
+
 // Transparent window
 - (void) resizeGUIWindow:(NSSize)size;
 
 // PlugIns and properties
 @property (nonatomic,readonly) PlugInManager* plugInManager;
-- (void) refreshProperty:(NSString*) name;
 
 // Methods
 + (CocosBuilderAppDelegate*) appDelegate;

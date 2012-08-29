@@ -44,6 +44,7 @@
 #import "SequencerNodeProperty.h"
 #import "SequencerKeyframe.h"
 #import "CCScale9Sprite.h"
+#import "InspectorDocumentView.h"
 
 #define kCCBSelectionOutset 3
 
@@ -774,7 +775,7 @@ static CocosScene* sharedCocosScene;
             
             [PositionPropertySetter setPosition:NSPointFromCGPoint(newLocalPos) forNode:selectedNode prop:@"position"];
         }
-        [appDelegate refreshProperty:@"position"];
+        [appDelegate.inspectorDocumentView refreshProperty:@"position"];
     }
     else if (currentMouseTransform == kCCBTransformHandleScale)
     {
@@ -817,7 +818,7 @@ static CocosScene* sharedCocosScene;
         int type = [PositionPropertySetter scaledFloatTypeForNode:transformScalingNode prop:@"scale"];
         [PositionPropertySetter setScaledX:xScaleNew Y:yScaleNew type:type forNode:transformScalingNode prop:@"scale"];
         
-        [appDelegate refreshProperty:@"scale"];
+        [appDelegate.inspectorDocumentView refreshProperty:@"scale"];
     }
     else if (currentMouseTransform == kCCBTransformHandleRotate)
     {
@@ -848,7 +849,7 @@ static CocosScene* sharedCocosScene;
         
         [appDelegate saveUndoStateWillChangeProperty:@"rotation"];
         transformScalingNode.rotation = newRotation;
-        [appDelegate refreshProperty:@"rotation"];
+        [appDelegate.inspectorDocumentView refreshProperty:@"rotation"];
     }
     else if (isPanning)
     {
