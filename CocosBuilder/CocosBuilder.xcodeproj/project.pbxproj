@@ -120,6 +120,7 @@
 		A37022D515F0EB3800A7E0DB /* NSIndexPath+GridCellLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = A37022D415F0EB3700A7E0DB /* NSIndexPath+GridCellLocation.m */; };
 		A3F3C20C15F5AC3600C08EB3 /* InspectorReference.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F3C20B15F5AC3600C08EB3 /* InspectorReference.m */; };
 		A3F3C20E15F5AC8200C08EB3 /* InspectorReference.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F3C20D15F5AC8200C08EB3 /* InspectorReference.xib */; };
+		A3F3C22215F5C43400C08EB3 /* sel-round.png in Resources */ = {isa = PBXBuildFile; fileRef = A3F3C22115F5C43400C08EB3 /* sel-round.png */; };
 		E3214C4115D3BF4D002413A7 /* CustomPropSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3214C4015D3BF4D002413A7 /* CustomPropSettingsWindow.xib */; };
 		E3214C4415D3C29D002413A7 /* CustomPropSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3214C4315D3C29D002413A7 /* CustomPropSettingsWindow.m */; };
 		E3214C4715D3C3AF002413A7 /* CustomPropSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = E3214C4615D3C3AF002413A7 /* CustomPropSetting.m */; };
@@ -921,6 +922,7 @@
 		A3F3C20A15F5AC3600C08EB3 /* InspectorReference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorReference.h; sourceTree = "<group>"; };
 		A3F3C20B15F5AC3600C08EB3 /* InspectorReference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorReference.m; sourceTree = "<group>"; };
 		A3F3C20D15F5AC8200C08EB3 /* InspectorReference.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InspectorReference.xib; sourceTree = "<group>"; };
+		A3F3C22115F5C43400C08EB3 /* sel-round.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sel-round.png"; sourceTree = "<group>"; };
 		E3214C4015D3BF4D002413A7 /* CustomPropSettingsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomPropSettingsWindow.xib; sourceTree = "<group>"; };
 		E3214C4215D3C29D002413A7 /* CustomPropSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPropSettingsWindow.h; sourceTree = "<group>"; };
 		E3214C4315D3C29D002413A7 /* CustomPropSettingsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPropSettingsWindow.m; sourceTree = "<group>"; };
@@ -1993,6 +1995,7 @@
 		776041F01498FD630078095D /* GUI */ = {
 			isa = PBXGroup;
 			children = (
+				A3F3C22115F5C43400C08EB3 /* sel-round.png */,
 				E33C2AB915CBF2580043EF9B /* seq-keyframe-hint.png */,
 				E326EFB515C84123006D6CE6 /* seq-endmarker.png */,
 				E3E2704A15B1904300287470 /* toolbar-bottom.png */,
@@ -4076,6 +4079,7 @@
 				E3B19F8115E65B51000B023E /* ccbParticleStars.png in Resources */,
 				E360789015EBA5420040A172 /* sel-frame.png in Resources */,
 				A3F3C20E15F5AC8200C08EB3 /* InspectorReference.xib in Resources */,
+				A3F3C22215F5C43400C08EB3 /* sel-round.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
