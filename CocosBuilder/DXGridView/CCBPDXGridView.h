@@ -6,8 +6,8 @@
 //
 //
 
-#import "CCNode.h"
+#import "DXGridView.h"
 
-@interface CCBPDXGridView : CCNode
+@interface CCBPDXGridView : DXGridView <DXGridViewDataSource>
 
 @end

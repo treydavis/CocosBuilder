@@ -74,6 +74,14 @@
 				<string>CCBFile</string>
 			</array>
 		</dict>
+		<dict>
+			<key>groupName</key>
+			<string>Drixel</string>
+			<key>plugIns</key>
+			<array>
+				<string>DXGridView</string>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>
