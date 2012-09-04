@@ -112,6 +112,7 @@
 @synthesize errorDescription;
 @synthesize selectedNodes;
 @synthesize inspectorDocumentView;
+@synthesize loadedSelectedNodes;
 
 static CocosBuilderAppDelegate* sharedAppDelegate;
 
@@ -210,8 +211,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     // Load resource manager
     resManager = [ResourceManager sharedManager];
-    resManagerPanel = [[ResourceManagerPanel alloc] initWithWindowNibName:@"ResourceManagerPanel"];
-    [resManagerPanel.window setIsVisible:NO];
+    //resManagerPanel = [[ResourceManagerPanel alloc] initWithWindowNibName:@"ResourceManagerPanel"];
+    //[resManagerPanel.window setIsVisible:NO];
     
     // Setup project display
     projectOutlineHandler = [[ResourceManagerOutlineHandler alloc] initWithOutlineView:outlineProject resType:kCCBResTypeNone];
@@ -244,6 +245,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self.window center];
     
     selectedNodes = [[NSMutableArray alloc] init];
+    loadedSelectedNodes = [[NSMutableArray alloc] init];
     
     sharedAppDelegate = self;
     
@@ -296,6 +298,13 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     self.showStickyNotes = YES;
     
     [self.window makeKeyWindow];
+    
+    if(delayOpenFiles)
+	{
+		[self openFiles:delayOpenFiles];
+		[delayOpenFiles release];
+		delayOpenFiles = nil;
+	}	
 }
 
 #pragma mark Notifications to user
@@ -823,6 +832,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     CCBGlobals* g = [CCBGlobals globals];
     
+    [loadedSelectedNodes removeAllObjects];
+    
     BOOL centered = [[doc objectForKey:@"centeredOrigin"] boolValue];
     
     // Setup stage & resolutions
@@ -942,6 +953,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     {
         [[CocosScene cocosScene].notesLayer removeAllNotes];
     }
+    
+    // Restore selections
+    self.selectedNodes = loadedSelectedNodes;
 }
 
 - (void) switchToDocument:(CCBDocument*) document forceReload:(BOOL)forceReload
@@ -991,7 +1005,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self updateTimelineMenu];
     [outlineHierarchy reloadData];
     
-    [resManagerPanel.window setIsVisible:NO];
+    //[resManagerPanel.window setIsVisible:NO];
     
     self.hasOpenedDocument = NO;
 }
@@ -1099,15 +1113,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     ProjectSettings* settings = [[[ProjectSettings alloc] init] autorelease];
     settings.projectPath = fileName;
     
-    // Copy resource
-    /*
-    NSString* templateFile = [[NSBundle mainBundle] pathForResource:@"HelloCocosBuilder" ofType:@"ccb"];
-    NSString* toFile = [[settings.absoluteResourcePaths objectAtIndex:0] stringByAppendingPathComponent:@"HelloCocosBuilder.ccb"];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:toFile])
-    {
-        [[NSFileManager defaultManager] copyItemAtPath:templateFile toPath:toFile error:NULL];
-    }*/
+    // Copy resources
     [self copyDefaultResourcesForProject:settings];
     
     return [settings store];
@@ -1150,7 +1156,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (BOOL) openProject:(NSString*) fileName
 {
-    // TODO: Close currently open project
+    // Close currently open project
     [self closeProject];
     
     // Add to recent list of opened documents
@@ -1175,7 +1181,39 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [self updateResourcePathsFromProjectSettings];
     
-    return [self checkForTooManyDirectoriesInCurrentProject];
+    BOOL success = [self checkForTooManyDirectoriesInCurrentProject];
+    
+    if (!success) return NO;
+    
+    // Open ccb file for project if there is only one
+    NSArray* resPaths = project.absoluteResourcePaths;
+    if (resPaths.count > 0)
+    {
+        NSString* resPath = [resPaths objectAtIndex:0];
+        
+        NSArray* resDir = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:resPath error:NULL];
+        
+        int numCCBFiles = 0;
+        NSString* ccbFile = NULL;
+        for (NSString* file in resDir)
+        {
+            if ([file hasSuffix:@".ccb"])
+            {
+                ccbFile = file;
+                numCCBFiles++;
+                
+                if (numCCBFiles > 1) break;
+            }
+        }
+        
+        if (numCCBFiles == 1)
+        {
+            // Open the ccb file
+            [self openFile:[resPath stringByAppendingPathComponent:ccbFile]];
+        }
+    }
+    
+    return YES;
 }
 
 - (void) openFile:(NSString*) fileName
@@ -1318,10 +1356,63 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self checkForTooManyDirectoriesInCurrentDoc];
 }
 
+/*
 - (BOOL) application:(NSApplication *)sender openFile:(NSString *)filename
 {
     [self openProject:filename];
     return YES;
+}*/
+
+- (NSString*) findProject:(NSString*) path
+{
+	NSString* projectFile = nil;
+	NSFileManager* fm = [NSFileManager defaultManager];
+    
+	NSArray* files = [fm contentsOfDirectoryAtPath:path error:NULL];
+	for( NSString* file in files )
+	{
+		if( [file hasSuffix:@".ccbproj"] )
+		{
+			projectFile = [path stringByAppendingPathComponent:file];
+			break;
+		}
+	}
+	return projectFile;
+}
+
+- (void)openFiles:(NSArray*)filenames
+{
+	for( NSString* filename in filenames )
+	{
+		if( [filename hasSuffix:@".ccb"] )
+		{
+			NSString* folderPathToSearch = [filename stringByDeletingLastPathComponent];
+			NSString* projectFile = [self findProject:folderPathToSearch];
+			if( projectFile )
+			{
+				[self openProject:projectFile];
+				[self openFile:filename];
+			}
+		}
+		else if ([filename hasSuffix:@".ccbproj"])
+		{
+			[self openProject:filename];		
+		}
+	}
+}
+
+- (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
+{
+	// if resManager isn't initialized wait for it to initialize before opening assets.	
+	if(!resManager)
+	{
+		NSAssert( delayOpenFiles == NULL, @"This shouldn't be set to anything since this value will only get applied once.");
+		delayOpenFiles = [[NSMutableArray alloc] initWithArray:filenames];
+	}
+	else 
+	{
+		[self openFiles:filenames];
+	}
 }
 
 - (void) openJSFile:(NSString*) fileName
@@ -1737,37 +1828,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         // Update the selected node
         [PositionPropertySetter setPosition:newPos forNode:selectedNode prop:@"position"];
         [self.inspectorDocumentView refreshProperty:@"position"];
+        [PositionPropertySetter addPositionKeyframeForNode:selectedNode];
         
-        // Update animated value
-        NSArray* animValue = [NSArray arrayWithObjects:
-                              [NSNumber numberWithFloat:newPos.x],
-                              [NSNumber numberWithFloat:newPos.y],
-                              NULL];
-        
-        NodeInfo* nodeInfo = selectedNode.userObject;
-        PlugInNode* plugIn = nodeInfo.plugIn;
-        
-        if ([plugIn isAnimatableProperty:@"position"])
-        {
-            SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
-            int seqId = seq.sequenceId;
-            SequencerNodeProperty* seqNodeProp = [selectedNode sequenceNodeProperty:@"position" sequenceId:seqId];
-            
-            if (seqNodeProp)
-            {
-                SequencerKeyframe* keyframe = [seqNodeProp keyframeAtTime:seq.timelinePosition];
-                if (keyframe)
-                {
-                    keyframe.value = animValue;
-                }
-                
-                [[SequencerHandler sharedHandler] redrawTimeline];
-            }
-            else
-            {
-                [nodeInfo.baseValues setObject:animValue forKey:@"position"];
-            }
-        }
+        [self refreshProperty:@"position"];
     }
 }
 
@@ -2008,10 +2071,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
             NSString* fileName = [[saveDlg URL] path];
             if ([self createProject: fileName])
             {
-                if ([self openProject:fileName])
-                {
-                    [self openFile:[[fileName stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"HelloCocosBuilder.ccb"]];
-                }
+                [self openProject:fileName];
             }
             else
             {
@@ -2350,7 +2410,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction) menuOpenResourceManager:(id)sender
 {
-    [resManagerPanel.window setIsVisible:![resManagerPanel.window isVisible]];
+    //[resManagerPanel.window setIsVisible:![resManagerPanel.window isVisible]];
 }
 
 - (void) reloadResources
@@ -2364,31 +2424,125 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self switchToDocument:currentDocument forceReload:YES];
 }
 
-- (IBAction) menuAlignChildrenToPixels:(id)sender
+- (IBAction) menuAlignToPixels:(id)sender
 {
     if (!currentDocument) return;
-    if (!self.selectedNode) return;
+    if (self.selectedNodes.count == 0) return;
+    
+    [self saveUndoStateWillChangeProperty:@"*align"];
     
     // Check if node can have children
-    NodeInfo* info = self.selectedNode.userObject;
-    PlugInNode* plugIn = info.plugIn;
-    if (!plugIn.canHaveChildren) return;
-    
-    CCArray* children = [self.selectedNode children];
-    if ([children count] == 0) return;
-    
-    for (int i = 0; i < [children count]; i++)
+    for (CCNode* c in self.selectedNodes)
     {
-        CCNode* c = [children objectAtIndex:i];
-        
         int positionType = [PositionPropertySetter positionTypeForNode:c prop:@"position"];
         if (positionType != kCCBPositionTypePercent)
         {
             CGPoint pos = [PositionPropertySetter positionForNode:c prop:@"position"];
             pos = ccp(roundf(pos.x), roundf(pos.y));
             [PositionPropertySetter setPosition:NSPointFromCGPoint(pos) forNode:c prop:@"position"];
+            [PositionPropertySetter addPositionKeyframeForNode:c];
         }
     }
+    
+    [self refreshProperty:@"position"];
+}
+
+- (IBAction) menuAlignObjects:(id)sender
+{
+    if (!currentDocument) return;
+    if (self.selectedNodes.count <= 1) return;
+    
+    [self saveUndoStateWillChangeProperty:@"*align"];
+    
+    int alignmentType = [sender tag];
+    
+    // Find position
+    float alignmentValue = 0;
+    for (CCNode* node in self.selectedNodes)
+    {
+        if (alignmentType == kCCBAlignHorizontalCenter)
+        {
+            alignmentValue += node.position.x;
+        }
+        else if (alignmentType == kCCBAlignVerticalCenter)
+        {
+            alignmentValue += node.position.y;
+        }
+    }
+    alignmentValue = alignmentValue/self.selectedNodes.count;
+    
+    // Align objects
+    for (CCNode* node in self.selectedNodes)
+    {
+        CGPoint newAbsPosition = node.position;
+        if (alignmentType == kCCBAlignHorizontalCenter)
+        {
+            newAbsPosition.x = alignmentValue;
+        }
+        else if (alignmentType == kCCBAlignVerticalCenter)
+        {
+            newAbsPosition.y = alignmentValue;
+        }
+        
+        int posType = [PositionPropertySetter positionTypeForNode:node prop:@"position"];
+        NSPoint newRelPos = [PositionPropertySetter calcRelativePositionFromAbsolute:NSPointFromCGPoint(newAbsPosition) type:posType parentSize:node.parent.contentSize];
+        [PositionPropertySetter setPosition:newRelPos forNode:node prop:@"position"];
+        [PositionPropertySetter addPositionKeyframeForNode:node];
+    }
+}
+
+- (IBAction)menuArrange:(id)sender
+{
+    int type = [sender tag];
+    
+    CCNode* node = self.selectedNode;
+    CCNode* parent = node.parent;
+    
+    CCArray* siblings = [node.parent children];
+    
+    // Check bounds
+    if ((type == kCCBArrangeSendToBack || type == kCCBArrangeSendBackward)
+        && node.zOrder == 0)
+    {
+        NSBeep();
+        return;
+    }
+    
+    if ((type == kCCBArrangeBringToFront || type == kCCBArrangeBringForward)
+        && node.zOrder == siblings.count - 1)
+    {
+        NSBeep();
+        return;
+    }
+    
+    if (siblings.count < 2)
+    {
+        NSBeep();
+        return;
+    }
+    
+    int newIndex;
+    
+    // Bring forward / send backward
+    if (type == kCCBArrangeSendToBack)
+    {
+        newIndex = 0;
+    }
+    else if (type == kCCBArrangeBringToFront)
+    {
+        newIndex = siblings.count -1;
+    }
+    else if (type == kCCBArrangeSendBackward)
+    {
+        newIndex = node.zOrder - 1;
+    }
+    else if (type == kCCBArrangeBringForward)
+    {
+        newIndex = node.zOrder + 1;
+    }
+    
+    [self deleteNode:node];
+    [self addCCObject:node toParent:parent atIndex:newIndex];
 }
 
 - (IBAction)menuSetEasing:(id)sender
@@ -2524,6 +2678,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         CGSize canvasSize = [[CocosScene cocosScene] stageSize];
         if (canvasSize.width == 0 || canvasSize.height == 0) return NO;
         return YES;
+    }
+    else if (menuItem.action == @selector(menuArrange:))
+    {
+        if (!hasOpenedDocument) return NO;
+        return (self.selectedNode != NULL);
     }
     
     return YES;

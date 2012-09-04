@@ -376,6 +376,12 @@
         [node addChild:child z:i];
     }
     
+    // Selections
+    if ([[dict objectForKey:@"selected"] boolValue])
+    {
+        [[CocosBuilderAppDelegate appDelegate].loadedSelectedNodes addObject:node];
+    }
+    
     BOOL isCCBSubFile = [baseClass isEqualToString:@"CCBFile"];
     
     // Load custom properties

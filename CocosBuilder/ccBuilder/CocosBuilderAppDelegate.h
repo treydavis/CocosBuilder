@@ -50,6 +50,18 @@ enum {
     kCCBBorderNone
 };
 
+enum {
+    kCCBAlignHorizontalCenter,
+    kCCBAlignVerticalCenter,
+};
+
+enum {
+    kCCBArrangeBringToFront,
+    kCCBArrangeBringForward,
+    kCCBArrangeSendBackward,
+    kCCBArrangeSendToBack,
+};
+
 
 @class CCBDocument;
 @class ProjectSettings;
@@ -107,7 +119,7 @@ enum {
     IBOutlet NSScrollView* sequenceScrollView;
     
     // Selections
-    //CCNode* selectedNode;
+    NSMutableArray* loadedSelectedNodes;
     NSMutableArray* selectedNodes;
     
     // Menus
@@ -132,7 +144,7 @@ enum {
     
     // Resource manager
     ResourceManager* resManager;
-    ResourceManagerPanel* resManagerPanel;
+    //ResourceManagerPanel* resManagerPanel;
     
     // Project
     ProjectSettings* projectSettings;
@@ -142,6 +154,7 @@ enum {
     ResourceManagerOutlineHandler* projectOutlineHandler;
     
     // Documents
+    NSMutableArray* delayOpenFiles;
     CCBDocument* currentDocument;
     BOOL hasOpenedDocument;
     
@@ -192,6 +205,7 @@ enum {
 
 @property (nonatomic,readonly) CCNode* selectedNode;
 @property (nonatomic,retain) NSArray* selectedNodes;
+@property (nonatomic,readonly) NSMutableArray* loadedSelectedNodes;
 
 @property (nonatomic,assign) BOOL showGuides;
 @property (nonatomic,assign) BOOL snapToGuides;
@@ -267,7 +281,6 @@ enum {
 
 - (IBAction) menuOpenResourceManager:(id)sender;
 - (void) reloadResources;
-- (IBAction) menuAlignChildrenToPixels:(id)sender;
 - (IBAction)menuAddStickyNote:(id)sender;
 - (IBAction) menuCleanCacheDirectories:(id)sender;
 
