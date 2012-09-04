@@ -22,13 +22,20 @@
  * THE SOFTWARE.
  */
 
-#import "NSFlippedView.h"
+#import "InspectorReference.h"
+#import "CCBGlobals.h"
+#import "CCNode+NodeInfo.h"
 
-@interface InspectorDocumentView : NSFlippedView
+@implementation InspectorReference
 
-- (void)refreshProperty:(NSString*)name;
-- (void)removeAllProperties;
-- (void)addInspectorPropertyOfType:(NSString*)type name:(NSString*)prop displayName:(NSString*)displayName extra:(NSString*)e readOnly:(BOOL)readOnly affectsProps:(NSArray*)affectsProps;
-- (void)resizeFrameAroundAddedProperties;
+- (void)setReference:(int)reference
+{
+    [selection setExtraProp:[NSNumber numberWithInt:reference] forKey:propertyName];
+}
+
+- (int)reference
+{
+    return [[selection extraPropForKey:propertyName] intValue];
+}
 
 @end

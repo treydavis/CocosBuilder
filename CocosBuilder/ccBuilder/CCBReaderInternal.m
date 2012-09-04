@@ -295,6 +295,12 @@
         [NodeGraphPropertySetter setNodeGraphForNode:node andProperty:name withFile:ccbFile parentSize:parentSize];
         [extraProps setObject:ccbFile forKey:name];
     }
+    else if ([type isEqualToString:@"Reference"])
+    {
+        NSNumber* target = serializedValue;
+        if (!target) target = [NSNumber numberWithInt:0];
+        [extraProps setObject:target forKey:[NSString stringWithFormat:@"%@",name]];
+    }
     else
     {
         NSLog(@"WARNING Unrecognized property type: %@", type);

@@ -420,6 +420,10 @@
         [self writeInt:a withSign:NO];
         [self writeInt:b withSign:NO];
     }
+    else if ([type isEqualToString:@"Reference"])
+    {
+        [self writeInt:[prop intValue] withSign:NO];
+    }
 }
 
 - (void) cacheStringsForNode:(NSDictionary*) node

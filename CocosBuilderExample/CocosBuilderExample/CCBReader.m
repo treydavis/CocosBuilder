@@ -699,6 +699,13 @@
             [node setValue:ccbFile forKey:name];
         }
     }
+    else if (type == kCCBPropTypeReference) {
+        int referenceTargetType = [self readIntWithSign:NO];
+        id reference = NULL;
+        if (referenceTargetType == kCCBTargetTypeDocumentRoot) reference = actionManager.rootNode;
+        else if (referenceTargetType == kCCBTargetTypeOwner) reference = owner;
+        [node setValue:reference forKey:name];
+    }
     else
     {
         NSLog(@"CCBReader: Failed to read property type %d",type);

@@ -451,6 +451,12 @@
             if (!spriteFile) spriteFile = @"";
             serializedValue = spriteFile;
         }
+        else if ([type isEqualToString:@"Reference"])
+        {
+            NSNumber* reference = [extraProps objectForKey:name];
+            if (!reference) reference = [NSNumber numberWithInt:0];
+            serializedValue = reference;
+        }
         else
         {
             NSLog(@"WARNING Unrecognized property type: %@", type);

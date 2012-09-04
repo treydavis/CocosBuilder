@@ -22,13 +22,10 @@
  * THE SOFTWARE.
  */
 
-#import "NSFlippedView.h"
+#import "InspectorValue.h"
 
-@interface InspectorDocumentView : NSFlippedView
+@interface InspectorReference : InspectorValue
 
-- (void)refreshProperty:(NSString*)name;
-- (void)removeAllProperties;
-- (void)addInspectorPropertyOfType:(NSString*)type name:(NSString*)prop displayName:(NSString*)displayName extra:(NSString*)e readOnly:(BOOL)readOnly affectsProps:(NSArray*)affectsProps;
-- (void)resizeFrameAroundAddedProperties;
+@property (nonatomic,assign) int reference;
 
 @end
