@@ -62,6 +62,7 @@
     [propTypes addObject:@"String"];
     [propTypes addObject:@"BlockCCControl"];
     [propTypes addObject:@"FloatScale"];
+    [propTypes addObject:@"Reference"];
 }
 
 - (id) init
