@@ -108,6 +108,13 @@
 		A09AB6BC14E9935F009C8B91 /* vec3.c in Sources */ = {isa = PBXBuildFile; fileRef = A09AB6AD14E9935F009C8B91 /* vec3.c */; };
 		A09AB6BD14E9935F009C8B91 /* vec4.c in Sources */ = {isa = PBXBuildFile; fileRef = A09AB6AE14E9935F009C8B91 /* vec4.c */; };
 		A09AB6F714E993AA009C8B91 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = A09AB6F614E993AA009C8B91 /* fps_images.png */; };
+		A306F1B61603903B00C10719 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7789ABC2133AA82000CEFCC7 /* Cocoa.framework */; };
+		A306F1C9160390B200C10719 /* CCBPDXGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = A306F1C2160390B200C10719 /* CCBPDXGridView.m */; };
+		A306F1CA160390B200C10719 /* CCBPProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = A306F1C3160390B200C10719 /* CCBPProperties.plist */; };
+		A306F1CC160390B200C10719 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A306F1C6160390B200C10719 /* InfoPlist.strings */; };
+		A306F1CD160390B200C10719 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A306F1C8160390B200C10719 /* Icon.png */; };
+		A306F1D01603913200C10719 /* InspectorDocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A306F1CF1603913200C10719 /* InspectorDocumentView.m */; };
+		A306F1E3160392E200C10719 /* DXGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = A306F1E2160392E200C10719 /* DXGridView.m */; };
 		E3214C4115D3BF4D002413A7 /* CustomPropSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3214C4015D3BF4D002413A7 /* CustomPropSettingsWindow.xib */; };
 		E3214C4415D3C29D002413A7 /* CustomPropSettingsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E3214C4315D3C29D002413A7 /* CustomPropSettingsWindow.m */; };
 		E3214C4715D3C3AF002413A7 /* CustomPropSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = E3214C4615D3C3AF002413A7 /* CustomPropSetting.m */; };
@@ -546,6 +553,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A306F1D11603915500C10719 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7789ABB5133AA82000CEFCC7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A306F1B31603903B00C10719;
+			remoteInfo = DXGridView;
+		};
 		E325F66814F6611300D29BCF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7789ABB5133AA82000CEFCC7 /* Project object */;
@@ -892,6 +906,19 @@
 		A09AB6AD14E9935F009C8B91 /* vec3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vec3.c; sourceTree = "<group>"; };
 		A09AB6AE14E9935F009C8B91 /* vec4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vec4.c; sourceTree = "<group>"; };
 		A09AB6F614E993AA009C8B91 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = "libs/cocos2d-iphone/Resources/Fonts/fps_images.png"; sourceTree = SOURCE_ROOT; };
+		A306F1BE1603903B00C10719 /* DXGridView.ccbPlugNode */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DXGridView.ccbPlugNode; sourceTree = BUILT_PRODUCTS_DIR; };
+		A306F1BF1603903C00C10719 /* CCScrollView copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "CCScrollView copy-Info.plist"; path = "/Users/Christy/Developer/CocosBuilder/CocosBuilder/CCScrollView copy-Info.plist"; sourceTree = "<absolute>"; };
+		A306F1C1160390B200C10719 /* CCBPDXGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBPDXGridView.h; sourceTree = "<group>"; };
+		A306F1C2160390B200C10719 /* CCBPDXGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBPDXGridView.m; sourceTree = "<group>"; };
+		A306F1C3160390B200C10719 /* CCBPProperties.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CCBPProperties.plist; sourceTree = "<group>"; };
+		A306F1C4160390B200C10719 /* DXGridView-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DXGridView-Info.plist"; sourceTree = "<group>"; };
+		A306F1C5160390B200C10719 /* DXGridView-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DXGridView-Prefix.pch"; sourceTree = "<group>"; };
+		A306F1C7160390B200C10719 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A306F1C8160390B200C10719 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		A306F1CE1603913200C10719 /* InspectorDocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InspectorDocumentView.h; sourceTree = "<group>"; };
+		A306F1CF1603913200C10719 /* InspectorDocumentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InspectorDocumentView.m; sourceTree = "<group>"; };
+		A306F1E1160392E200C10719 /* DXGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DXGridView.h; path = ../../../PolyominoGame/PolyominoGame/DXGridView.h; sourceTree = "<group>"; };
+		A306F1E2160392E200C10719 /* DXGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DXGridView.m; path = ../../../PolyominoGame/PolyominoGame/DXGridView.m; sourceTree = "<group>"; };
 		E3214C4015D3BF4D002413A7 /* CustomPropSettingsWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomPropSettingsWindow.xib; sourceTree = "<group>"; };
 		E3214C4215D3C29D002413A7 /* CustomPropSettingsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPropSettingsWindow.h; sourceTree = "<group>"; };
 		E3214C4315D3C29D002413A7 /* CustomPropSettingsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPropSettingsWindow.m; sourceTree = "<group>"; };
@@ -1612,6 +1639,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A306F1B51603903B00C10719 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A306F1B61603903B00C10719 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E325F65714F65C8E00D29BCF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1824,6 +1859,8 @@
 				7789ABD7133AA82000CEFCC7 /* MainMenu.xib */,
 				E335CAFE1576702300A612EE /* MainWindow.h */,
 				E335CAFF1576702300A612EE /* MainWindow.m */,
+				A306F1CE1603913200C10719 /* InspectorDocumentView.h */,
+				A306F1CF1603913200C10719 /* InspectorDocumentView.m */,
 			);
 			name = "AppDelegate & Cocos2D Scene";
 			sourceTree = "<group>";
@@ -2056,6 +2093,7 @@
 				FA98CFC5154E7D1C006E58C5 /* ccbpublish */,
 				7789ABC1133AA82000CEFCC7 /* Frameworks */,
 				7789ABBF133AA82000CEFCC7 /* Products */,
+				A306F1BF1603903C00C10719 /* CCScrollView copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2080,6 +2118,7 @@
 				E3C65116151BB89500D639C0 /* CCControl.ccbPlugNode */,
 				E3FCE8661524856D0028E8E7 /* CCScrollView.ccbPlugNode */,
 				FA98CFC1154E7D1C006E58C5 /* ccbpublish */,
+				A306F1BE1603903B00C10719 /* DXGridView.ccbPlugNode */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2319,6 +2358,22 @@
 			path = GL;
 			sourceTree = "<group>";
 		};
+		A306F1C0160390B200C10719 /* DXGridView */ = {
+			isa = PBXGroup;
+			children = (
+				A306F1E1160392E200C10719 /* DXGridView.h */,
+				A306F1E2160392E200C10719 /* DXGridView.m */,
+				A306F1C1160390B200C10719 /* CCBPDXGridView.h */,
+				A306F1C2160390B200C10719 /* CCBPDXGridView.m */,
+				A306F1C3160390B200C10719 /* CCBPProperties.plist */,
+				A306F1C4160390B200C10719 /* DXGridView-Info.plist */,
+				A306F1C5160390B200C10719 /* DXGridView-Prefix.pch */,
+				A306F1C6160390B200C10719 /* InfoPlist.strings */,
+				A306F1C8160390B200C10719 /* Icon.png */,
+			);
+			path = DXGridView;
+			sourceTree = "<group>";
+		};
 		E3214C3F15D3B9D0002413A7 /* Custom Properties */ = {
 			isa = PBXGroup;
 			children = (
@@ -2480,6 +2535,7 @@
 		E35392481518AD4100471721 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				A306F1C0160390B200C10719 /* DXGridView */,
 				E3FCE8681524856D0028E8E7 /* CCScrollView */,
 				E35392791518D78D00471721 /* CCScale9Sprite */,
 				E3C65118151BB89500D639C0 /* CCControl */,
@@ -3451,6 +3507,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				A306F1D21603915500C10719 /* PBXTargetDependency */,
 				E3F541CE15AED85800EAAFBD /* PBXTargetDependency */,
 				E398C02F14FB82090078E771 /* PBXTargetDependency */,
 				E3B7AED314E31AEF00DFD402 /* PBXTargetDependency */,
@@ -3473,6 +3530,23 @@
 			productName = ccBuilder;
 			productReference = 7789ABBE133AA82000CEFCC7 /* CocosBuilder.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A306F1B31603903B00C10719 /* DXGridView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A306F1BB1603903B00C10719 /* Build configuration list for PBXNativeTarget "DXGridView" */;
+			buildPhases = (
+				A306F1B41603903B00C10719 /* Sources */,
+				A306F1B51603903B00C10719 /* Frameworks */,
+				A306F1B71603903B00C10719 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DXGridView;
+			productName = CCScrollView;
+			productReference = A306F1BE1603903B00C10719 /* DXGridView.ccbPlugNode */;
+			productType = "com.apple.product-type.bundle";
 		};
 		E325F65914F65C8E00D29BCF /* CCMenuItemImage */ = {
 			isa = PBXNativeTarget;
@@ -3805,6 +3879,7 @@
 				E3C65115151BB89500D639C0 /* CCControl */,
 				E3B84C38151A2C02004B743C /* CCControlButton */,
 				E3FCE8651524856D0028E8E7 /* CCScrollView */,
+				A306F1B31603903B00C10719 /* DXGridView */,
 				7789ABBD133AA82000CEFCC7 /* CocosBuilder */,
 				FA98CFC0154E7D1C006E58C5 /* ccbpublish */,
 			);
@@ -4029,6 +4104,16 @@
 				E3AF6CE115F0CFAE0048DB2A /* Documentation in Resources */,
 				E3AF6CE615F0F5760048DB2A /* help-logo.png in Resources */,
 				E3DFE831160226760068CB50 /* frame-iphone5.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A306F1B71603903B00C10719 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A306F1CA160390B200C10719 /* CCBPProperties.plist in Resources */,
+				A306F1CC160390B200C10719 /* InfoPlist.strings in Resources */,
+				A306F1CD160390B200C10719 /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4456,6 +4541,16 @@
 				E3B7BCA015E3BCFE00CF95EF /* MainToolbarDelegate.m in Sources */,
 				E3AF6CDB15F0A9BC0048DB2A /* HelpWindow.m in Sources */,
 				E3AF6CE415F0DBA90048DB2A /* HelpPage.m in Sources */,
+				A306F1D01603913200C10719 /* InspectorDocumentView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A306F1B41603903B00C10719 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A306F1C9160390B200C10719 /* CCBPDXGridView.m in Sources */,
+				A306F1E3160392E200C10719 /* DXGridView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4591,6 +4686,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A306F1D21603915500C10719 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A306F1B31603903B00C10719 /* DXGridView */;
+			targetProxy = A306F1D11603915500C10719 /* PBXContainerItemProxy */;
+		};
 		E325F66914F6611300D29BCF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E325F65914F65C8E00D29BCF /* CCMenuItemImage */;
@@ -4701,6 +4801,14 @@
 				7789ABD8133AA82000CEFCC7 /* en */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		A306F1C6160390B200C10719 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A306F1C7160390B200C10719 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		E325F65F14F65C8F00D29BCF /* InfoPlist.strings */ = {
@@ -4927,6 +5035,56 @@
 				);
 				PRODUCT_NAME = CocosBuilder;
 				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		A306F1BC1603903B00C10719 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DXGridView/DXGridView-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "DXGridView/DXGridView-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = DXGridView;
+				WRAPPER_EXTENSION = ccbPlugNode;
+			};
+			name = Debug;
+		};
+		A306F1BD1603903B00C10719 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DXGridView/DXGridView-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "DXGridView/DXGridView-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = DXGridView;
+				WRAPPER_EXTENSION = ccbPlugNode;
 			};
 			name = Release;
 		};
@@ -5799,6 +5957,15 @@
 			buildConfigurations = (
 				7789ABDD133AA82000CEFCC7 /* Debug */,
 				7789ABDE133AA82000CEFCC7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A306F1BB1603903B00C10719 /* Build configuration list for PBXNativeTarget "DXGridView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A306F1BC1603903B00C10719 /* Debug */,
+				A306F1BD1603903B00C10719 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
