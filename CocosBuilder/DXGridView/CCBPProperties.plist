@@ -76,7 +76,7 @@
 			<key>displayName</key>
 			<string>Cell Size</string>
 		</dict>
-        <dict>
+		<dict>
 			<key>affectsProperties</key>
 			<array>
 				<string>contentSize</string>
@@ -95,6 +95,18 @@
 			<string>dataSource</string>
 			<key>displayName</key>
 			<string>Data Source</string>
+		</dict>
+		<dict>
+			<key>defaultSerialization</key>
+			<integer>255</integer>
+			<key>animatable</key>
+			<true/>
+			<key>displayName</key>
+			<string>Opacity</string>
+			<key>type</key>
+			<string>Byte</string>
+			<key>name</key>
+			<string>opacity</string>
 		</dict>
 	</array>
 </dict>

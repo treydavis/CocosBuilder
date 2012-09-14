@@ -10,6 +10,9 @@
 #import "cocos2d.h"
 
 @interface DXGridViewCell : CCNode
+
+@property(nonatomic, assign) GLubyte opacity;
+
 @end
 
 @implementation DXGridViewCell
@@ -23,11 +26,21 @@
     return self;
 }
 
+@synthesize opacity = _opacity;
+
 -(void) draw
 {
-    [super draw];
-    ccDrawRect(ccp(0, 0), ccp(self.contentSize.width, self.contentSize.height));
-    ccDrawPoint(self.anchorPointInPoints);
+    if (self.contentSize.width >= 0 && self.contentSize.height >= 0) {
+        if( _opacity != 255 )
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        
+        ccDrawColor4B(255, 255, 255, _opacity);
+        ccDrawRect(ccp(0, 0), ccp(self.contentSize.width-1, self.contentSize.height-1));
+        ccDrawPoint(self.anchorPointInPoints);
+        
+        if( _opacity != 255 )
+            glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+    }
 }
 
 @end
