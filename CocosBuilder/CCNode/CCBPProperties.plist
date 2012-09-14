@@ -67,8 +67,8 @@
 		<dict>
 			<key>defaultSerialization</key>
 			<array>
-				<real>0.5</real>
-				<real>0.5</real>
+				<real>0</real>
+				<real>0</real>
 			</array>
 			<key>type</key>
 			<string>Point</string>
