@@ -1069,7 +1069,7 @@
     }
 
     //TODO: find a better solution
-    if ([nodeGraph respondsToSelector:@selector(setCCBActionManager:)]) {
+    if ([nodeGraph respondsToSelector:@selector(setCCBAnimationManager:)]) {
         [nodeGraph setCCBAnimationManager:reader.actionManager];
     }
     // Call didLoadFromCCB
