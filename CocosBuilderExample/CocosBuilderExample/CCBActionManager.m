@@ -398,6 +398,10 @@
     CCAction* completeAction = [CCSequence actionOne:[CCDelayTime actionWithDuration:seq.duration+tweenDuration] two:[CCCallFunc actionWithTarget:self selector:@selector(sequenceCompleted)]];
     [rootNode runAction:completeAction];
     
+    if (runningSequence) {
+        [delegate completedAnimationSequenceNamed:runningSequence.name];
+    }
+    
     // Set the running scene
     runningSequence = [self sequenceFromSequenceId:seqId];
 }
