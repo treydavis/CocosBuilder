@@ -905,7 +905,7 @@ static CocosScene* sharedCocosScene;
         
         [appDelegate saveUndoStateWillChangeProperty:@"anchorPoint"];
         transformScalingNode.anchorPoint = ccpAdd(transformScalingNode.transformStartPosition, deltaAnchorPoint);
-        [appDelegate refreshProperty:@"anchorPoint"];
+        [appDelegate.inspectorDocumentView refreshProperty:@"anchorPoint"];
     }
     else if (isPanning)
     {

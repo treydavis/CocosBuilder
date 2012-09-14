@@ -1830,7 +1830,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         [self.inspectorDocumentView refreshProperty:@"position"];
         [PositionPropertySetter addPositionKeyframeForNode:selectedNode];
         
-        [self refreshProperty:@"position"];
+        [self.inspectorDocumentView refreshProperty:@"position"];
     }
 }
 
@@ -2444,7 +2444,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         }
     }
     
-    [self refreshProperty:@"position"];
+    [self.inspectorDocumentView refreshProperty:@"position"];
 }
 
 - (IBAction) menuAlignObjects:(id)sender
