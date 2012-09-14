@@ -140,6 +140,7 @@ static CocosScene* sharedCocosScene;
 - (void) setStageBorder:(int)type
 {
     borderDevice.visible = NO;
+    stageBgLayer.opacity = 255;
     
     if (stageBgLayer.contentSize.width == 0 || stageBgLayer.contentSize.height == 0)
     {
@@ -244,6 +245,7 @@ static CocosScene* sharedCocosScene;
     }
     else
     {
+        stageBgLayer.opacity = 0;
         borderLayer.visible = NO;
     }
     
