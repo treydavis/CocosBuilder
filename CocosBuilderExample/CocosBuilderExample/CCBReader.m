@@ -1067,16 +1067,13 @@
         CCBAnimationManager* manager = [animationManagers objectForKey:pointerValue];
         node.userObject = manager;
     }
-    
-<<<<<<< HEAD
+
     //TODO: find a better solution
     if ([nodeGraph respondsToSelector:@selector(setCCBActionManager:)]) {
-        [nodeGraph setCCBActionManager:reader.actionManager];
+        [nodeGraph setCCBAnimationManager:reader.actionManager];
     }
-=======
     // Call didLoadFromCCB
     [CCBReader callDidLoadFromCCBForNodeGraph:nodeGraph];
->>>>>>> officialCCB/master
     
     return nodeGraph;
 }
