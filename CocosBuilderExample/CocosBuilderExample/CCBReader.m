@@ -1054,6 +1054,11 @@
         *actionManager = reader.actionManager;
     }
     
+    //TODO: find a better solution
+    if ([nodeGraph respondsToSelector:@selector(setCCBActionManager:)]) {
+        [nodeGraph setCCBActionManager:reader.actionManager];
+    }
+    
     return nodeGraph;
 }
 
