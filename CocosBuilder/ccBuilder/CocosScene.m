@@ -173,6 +173,16 @@ static CocosScene* sharedCocosScene;
             deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-iphone.png"];
             rotateDevice = YES;
         }
+        if (devType == kCCBCanvasSizeIPhone5Portrait)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-iphone5.png"];
+            rotateDevice = NO;
+        }
+        else if (devType == kCCBCanvasSizeIPhone5Landscape)
+        {
+            deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-iphone5.png"];
+            rotateDevice = YES;
+        }
         else if (devType == kCCBCanvasSizeIPadPortrait)
         {
             deviceTexture = [[CCTextureCache sharedTextureCache] addImage:@"frame-ipad.png"];
@@ -612,6 +622,12 @@ static CocosScene* sharedCocosScene;
     {
         // Anchor points are fixed for singel point nodes
         if (transformScalingNode.contentSize.width == 0 || transformScalingNode.contentSize.height == 0)
+        {
+            return YES;
+        }
+        
+        BOOL readOnly = [[[transformScalingNode.plugIn.nodePropertiesDict objectForKey:@"anchorPoint"] objectForKey:@"readOnly"] boolValue];
+        if (readOnly)
         {
             return YES;
         }

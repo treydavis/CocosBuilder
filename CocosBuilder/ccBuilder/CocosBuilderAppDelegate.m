@@ -84,6 +84,8 @@
 #import "MainToolbarDelegate.h"
 #import "InspectorSeparator.h"
 #import "InspectorDocumentView.h"
+#import "HelpWindow.h"
+#import "NodeGraphPropertySetter.h"
 
 #import <ExceptionHandling/NSExceptionHandler.h>
 
@@ -254,6 +256,8 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     // iOS
     defaultCanvasSizes[kCCBCanvasSizeIPhoneLandscape] = CGSizeMake(480, 320);
     defaultCanvasSizes[kCCBCanvasSizeIPhonePortrait] = CGSizeMake(320, 480);
+    defaultCanvasSizes[kCCBCanvasSizeIPhone5Landscape] = CGSizeMake(568, 320);
+    defaultCanvasSizes[kCCBCanvasSizeIPhone5Portrait] = CGSizeMake(320, 568);
     defaultCanvasSizes[kCCBCanvasSizeIPadLandscape] = CGSizeMake(1024, 768);
     defaultCanvasSizes[kCCBCanvasSizeIPadPortrait] = CGSizeMake(768, 1024);
     
@@ -299,12 +303,22 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [self.window makeKeyWindow];
     
+    // Open files
     if(delayOpenFiles)
 	{
 		[self openFiles:delayOpenFiles];
 		[delayOpenFiles release];
 		delayOpenFiles = nil;
-	}	
+	}
+    
+    // Check for first run
+    if (![[[NSUserDefaults standardUserDefaults] objectForKey:@"completedFirstRun"] boolValue])
+    {
+        [self showHelp:self];
+        
+        // First run completed
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"completedFirstRun"];
+    }
 }
 
 #pragma mark Notifications to user
@@ -1246,6 +1260,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [self checkForTooManyDirectoriesInCurrentDoc];
     
+    // Remove selections
+    [self setSelectedNodes:NULL];
+    
 	[[[CCDirector sharedDirector] view] unlockOpenGLContext];
 }
 
@@ -1586,6 +1603,10 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
         // Create the node
         CCNode* node = [plugInManager createDefaultNodeOfType:class];
         
+        // Round position
+        pt.x = roundf(pt.x);
+        pt.y = roundf(pt.y);
+        
         // Set its position
         [PositionPropertySetter setPosition:pt forNode:node prop:@"position"];
         
@@ -1616,6 +1637,25 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     {
         [self dropAddSpriteNamed:spriteFile inSpriteSheet:spriteSheetFile at:[node convertToNodeSpace:pt] parent:node];
     }
+}
+
+- (void) dropAddCCBFileNamed:(NSString*)ccbFile at:(CGPoint)pt parent:(CCNode*)parent
+{
+    if (!parent)
+    {
+        if (self.selectedNode != [CocosScene cocosScene].rootNode)
+        {
+            parent = self.selectedNode.parent;
+        }
+        if (!parent) parent = [CocosScene cocosScene].rootNode;
+        
+        pt = [parent convertToNodeSpace:pt];
+    }
+    
+    CCNode* node = [plugInManager createDefaultNodeOfType:@"CCBFile"];
+    [NodeGraphPropertySetter setNodeGraphForNode:node andProperty:@"ccbFile" withFile:ccbFile parentSize:parent.contentSize];
+    [PositionPropertySetter setPosition:pt type:kCCBPositionTypeRelativeBottomLeft forNode:node prop:@"position" parentSize:parent.contentSize];
+    [self addCCObject:node toParent:parent];
 }
 
 
@@ -2823,9 +2863,22 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (IBAction)showHelp:(id)sender
 {
-    NSURL* url = [NSURL URLWithString:@"http://cocosbuilder.com/?page_id=68"];
+    if(!helpWindow)
+    {
+        helpWindow = [[HelpWindow alloc] initWithWindowNibName:@"HelpWindow"];
+    }
     
-    [[NSWorkspace sharedWorkspace] openURL:url];
+    [[helpWindow window] makeKeyAndOrderFront:self];
+}
+
+- (IBAction)reportBug:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://github.com/cocos2d/CocosBuilder/issues"]];
+}
+
+- (IBAction)visitCommunity:(id)sender
+{
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.cocos2d-iphone.org/forum/forum/16"]];
 }
 
 #pragma mark Debug

@@ -660,6 +660,7 @@
         NSString* b = [value objectAtIndex:0];
         
         if ([b isEqualToString:@"Use regular file"]) b = @"";
+        if ([a isEqualToString:@"Use regular file"]) a = @"";
         
         [self writeCachedString:a isPath:YES];
         [self writeCachedString:b isPath:[a isEqualToString:@""]];

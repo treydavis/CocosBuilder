@@ -25,7 +25,7 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-@class CCBActionManager;
+@class CCBAnimationManager;
 
 #define kCCBVersion 3
 
@@ -116,28 +116,24 @@ enum
     
     id owner;
     
-    CCBActionManager* actionManager;
+    CCBAnimationManager* actionManager;
+    NSMutableDictionary* actionManagers;
     NSMutableSet* animatedProps;
 }
 
-@property (nonatomic,retain) CCBActionManager* actionManager;
+@property (nonatomic,retain) CCBAnimationManager* actionManager;
 
 + (NSString*) ccbDirectoryPath;
 
 + (CCNode*) nodeGraphFromFile:(NSString*) file;
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner;
 + (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize;
-+ (CCNode*) nodeGraphFromFile:(NSString *)file owner:(id)owner actionManager:(CCBActionManager **)actionManager;
-+ (CCNode*) nodeGraphFromFile:(NSString*) file owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBActionManager**)actionManager;
 
-+ (CCNode*) nodeGraphFromData:(NSData*) data owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBActionManager**)actionManager;
 + (CCNode*) nodeGraphFromData:(NSData*) data owner:(id)owner parentSize:(CGSize)parentSize;
 
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString*) file;
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner;
 + (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize;
-+ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner  actionManager:(CCBActionManager**)actionManager;
-+ (CCScene*) sceneWithNodeGraphFromFile:(NSString *)file owner:(id)owner parentSize:(CGSize)parentSize actionManager:(CCBActionManager**)actionManager;
 
 + (void) setResolutionScale:(float)scale;
 
